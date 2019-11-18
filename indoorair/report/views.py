@@ -29,19 +29,20 @@ class TimeseriesDatumReportListAPIView(views.APIView):
 
 class Report01APIView(views.APIView):
     def post(self, request):
-        report_01 = Report.objects.create(
-        contents = random_string_generator(size=1000, chars=string.ascii_lowercase + string.digits))
+        try:
+            report_01 = Report.objects.create(
+            contents = random_string_generator(size=1000, chars=string.ascii_lowercase + string.digits))
 
-        return response.Response(
-            status = status.HTTP_200_OK,
-            data = {
-                'message' : 'The Report_01 is generated Successfully!'
-            }
-        )
-    # except Exception as e:
-    #     return response.Response(
-    #         status = status.HTTP_400_BAD_REQUEST,
-    #         data = {
-    #             'error' : str(e)
-    #         }
-    #     )
+            return response.Response(
+                status = status.HTTP_200_OK,
+                data = {
+                    'message' : 'The Report_01 is generated Successfully!'
+                }
+            )
+        except Exception as e:
+            return response.Response(
+                status = status.HTTP_400_BAD_REQUEST,
+                data = {
+                    'error' : str(e)
+                }
+            )
