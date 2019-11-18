@@ -39,10 +39,9 @@ class TimeSeriesDatum(models.Model):
     value = models.FloatField()
     time = models.DateTimeField()
     def __str__(self):
-        return str(self.sensor) + " is " + str(self.value) + " at " + str(self.time)
+        return str(self.sensor) + "  " + str(self.value) + "  " + str(self.time)
 
 class Report(models.Model):
-    value = models.IntegerField()
     report = models.TextField()
     def __str__(self):
-        return str(self.id) + " "+ str(self.value) + " " + str(self.report)
+        return str(self.report)
