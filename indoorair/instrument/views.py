@@ -54,7 +54,7 @@ class CreateAPIView(views.APIView):
                     return response.Response(
                         status = status.HTTP_400_BAD_REQUEST,
                         data = {
-                            'error':'The Serial number you entered is not found or wrong. Please try again!'
+                            'error':'The Serial number you entered is wrong. Please try again!'
                                }
                         )
         except Exception as e:
