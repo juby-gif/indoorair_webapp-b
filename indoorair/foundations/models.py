@@ -1,9 +1,14 @@
 from django.db import models
+import uuid
 from django.contrib.auth.models import User
 
 class AirQualityDB(models.Model):
     name = models.CharField(max_length = 20)
     value = models.IntegerField()
+
+
+def get_next():
+    return uuid.uuid4()
 
 class Instrument(models.Model):
     user = models.ForeignKey(
@@ -11,10 +16,10 @@ class Instrument(models.Model):
           on_delete=models.CASCADE
           )
     name = models.CharField(max_length=255)
-    serial_no = models.AutoField(primary_key=True)
+    serial_no = models.UUIDField(primary_key=True, default=get_next, editable=False)
 
     def __str__(self):
-        return self.name + " " + str(self.user) + str(self.serial_no)
+        return self.name + "    " + str(self.user) + "    " + str(self.serial_no)
 
 class Sensor(models.Model):
     instrument = models.ForeignKey(
@@ -35,8 +40,8 @@ class TimeSeriesDatum(models.Model):
     time = models.DateTimeField()
     def __str__(self):
         return str(self.sensor) + " is " + str(self.value) + " at " + str(self.time)
+
 class Report(models.Model):
-    id = models.PositiveSmallIntegerField()
     value = models.IntegerField()
     report = models.TextField()
     def __str__(self):

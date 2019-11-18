@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'instrument.apps.InstrumentConfig',
     'profile_api.apps.ProfileApiConfig',
-    'sensor.apps,SensorConfig',
+    'sensor.apps.SensorConfig',
     'report.apps.ReportConfig',
 ]
 

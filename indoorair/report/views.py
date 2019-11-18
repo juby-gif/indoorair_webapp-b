@@ -2,7 +2,7 @@ from rest_framework import views, status, response
 from django.shortcuts import render
 import random, string
 
-from foundations.models import Sensor,TimeseriesDatum
+from foundations.models import Sensor,TimeSeriesDatum
 
 
 def report_list_page(request):
@@ -28,24 +28,20 @@ class TimeseriesDatumReportListAPIView(views.APIView):
             )
 
 class Report01APIView(views.APIView):
-    try:
+    def post(self, request):
         report_01 = Report.objects.create(
-        contents = random_string_generator(size=1000, chars=string.ascii_lowercase + string.digits),
-        )
+        contents = random_string_generator(size=1000, chars=string.ascii_lowercase + string.digits))
+
         return response.Response(
             status = status.HTTP_200_OK,
             data = {
                 'message' : 'The Report_01 is generated Successfully!'
             }
         )
-    except Exception as e:
-        return response.Response(
-            status = status.HTTP_400_BAD_REQUEST,
-            data = {
-                'error' : str(e)
-            }
-        )
-
-
-def random_string_generator(size, chars): #taken from http://www.learningaboutelectronics.com/Articles/How-to-generate-a-random-unique-order-id-with-Python-in-Django.php
-    return ''.join(random.choice(chars) for _ in range(size))
+    # except Exception as e:
+    #     return response.Response(
+    #         status = status.HTTP_400_BAD_REQUEST,
+    #         data = {
+    #             'error' : str(e)
+    #         }
+    #     )

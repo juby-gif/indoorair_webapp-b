@@ -1,5 +1,6 @@
 from rest_framework import response,status,views
 from django.shortcuts import render
+import uuid
 
 from foundations.models import Instrument
 
@@ -32,17 +33,38 @@ class ListInstrumentsAPIView(views.APIView):
                 'Instruments': output
             }
         )
+
 class CreateAPIView(views.APIView):
     def post(self, request):
         unsanitized_serial_number = request.data.get('serial_no', None)
-        sanitized_serial_number = int(unsanitized_serial_number)
-        if sanitized_serial_number == Instrument.serial_no:
+        sanitized_serial_number = uuid.UUID(unsanitized_serial_number)
+        try:
+            uuid_value = Instrument.objects.all().values('serial_no')
+            for value in uuid_value:
+                if sanitized_serial_number == value['serial_no']:
+                    print(value['serial_no'])
+                    return response.Response(
+                        status = status.HTTP_201_CREATED,
+                        data = {
+                            'message':'Successfully Created'
+                               }
+                        )
+                    break
+                else:
+                    return response.Response(
+                        status = status.HTTP_400_BAD_REQUEST,
+                        data = {
+                            'error':'The Serial number you entered is not found or wrong. Please try again!'
+                               }
+                        )
+        except Exception as e:
             return response.Response(
-                status = status.HTTP_201_CREATED,
+                status = status.HTTP_400_BAD_REQUEST,
                 data = {
-                    'message':'Successfully Created'
+                    'error':str(e)
                        }
                 )
+
 
 def i_retrieve_page(request, id):
     return render(request, "instrument/retrieve.html", {
@@ -62,7 +84,7 @@ class RetrieveAPIView(views.APIView):
                 )
 
         except Exception as e:
-            return return response.Response(
+            return response.Response(
                 status = status.HTTP_400_BAD_REQUEST,
                 data = {
                     'error': str(e),
@@ -89,7 +111,7 @@ class UpdateAPIView(views.APIView):
                        }
                 )
         except Exception as e:
-            return return response.Response(
+            return response.Response(
                 status = status.HTTP_400_BAD_REQUEST,
                 data = {
                     'error': str(e),

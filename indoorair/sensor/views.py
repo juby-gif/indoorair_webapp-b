@@ -21,7 +21,7 @@ class RetrieveAPIView(views.APIView):
                 )
 
         except Exception as e:
-            return return response.Response(
+            return response.Response(
                 status = status.HTTP_400_BAD_REQUEST,
                 data = {
                     'error': str(e),
