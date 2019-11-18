@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IndoorAir | Report_01</title>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+    <script>
+        {% include "report/report_01.js" %}
+    </script>
+
+    <h1>Temperature sensor Report</h1>
+
+    <!-- STEP 1: Create a `table` HTML element and attacch `id` to it. --->
+    <table style="width:100%" id="temperatureSensorReport">
+    </table>
+
+
+    <p>
+        <button type="button" onclick="onBackClick()">Back</button>
+    </p>
+
+</body>
+</html>

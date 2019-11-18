@@ -1,0 +1,31 @@
+<!-- homepage/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>IndoorAir | Home</title>
+</head>
+<body>
+    <script>
+        {% include "dashboard/dashboard.js" %}
+    </script>
+
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard. Your averages are:</p>
+    <p>Average Temperature:</p>
+    <p id="avg_temperature">---</p>
+    <p>Average Humidity:</p>
+    <p id="avg_humidity">---</p>
+    <p>Average CO2:</p>
+    <p id="avg_co2">---</p>
+    <p>Average Pressure:</p>
+    <p id="avg_pressure">---</p>
+    <p>Average TVOC:</p>
+    <p id="avg_tvoc">---</p>
+    <br />
+    <a href="/instrument/instruments">List Instruments</a>
+    <a href="profile_api/retrieve_profile">View Profile</a>
+
+    <button onclick="onLogoutClick();">Logout</button>
+
+</body>
+</html>

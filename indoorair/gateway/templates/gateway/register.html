@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Account Register</h1>
+<script>
+ {% include "gateway/register.js" %}
+</script>
+<p>
+Username:
+<input  id = "username" name = "username " type ="text"></input>
+</p>
+<p>
+Password:
+<input id = "password" name = "password " type ="password"></input>
+</p>
+<p>
+First name:
+<input id = "first_name" name = "first_name " type ="text"></input>
+</p>
+<p>
+Last name:
+<input id = "last_name" name = "last_name " type ="text"></input>
+</p>
+<p>
+Email:
+<input id = "email" name = "email " type ="text"></input>
+</p>
+<button type = "button" onclick = "onRegisterClick()" >Submit </button>
