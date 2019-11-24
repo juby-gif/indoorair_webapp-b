@@ -1,31 +1,27 @@
+<!-- register/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-<title>Indoorair Webapp  </title>
+<title>IndoorAir | Login</title>
 </head>
 <body>
-  <script>
+    <script>
+        {% include "gateway/login.js" %}
+    </script>
 
+    <h1>Login</h1>
+    <p>
+    Username:
+    <input id="username" name="username" type="text"></input>
+    </p>
 
-  {% include "gateway/login.js" %}
+    <p>
+    Password:
+    <input id="password" name="password" type="password"></input>
+    </p>
 
-  </script>
-
-  <h1>Login </h1>
-  USERNAME:
-  <p>
-    <input id = "username" name = "username" type = "text"></input>
-  </p>
-  PASSWORD:
-  <p>
-      <input id = "password" name = "password" type = "password"></input>
-  </p>
-  <p>
-    <button onclick = "onLoginClick();">Submit</button>
-  </p>
-
-
-
-
+    <p>
+    <button type="button" onclick="onLoginClick()">Submit</button>
+    </p>
 </body>
 </html>

@@ -1,29 +1,22 @@
-from rest_framework import response,status,views
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from rest_framework import status, response, views
 
 from foundations.models import Sensor
+from sensor.serializers import SensorRetrieveSerializer
 
-def s_retrieve_page(request, id):
+
+def sensor_retrieve_page(request, id):
     return render(request, "sensor/retrieve.html", {
-        "instrument_id": int(id),
+        'id': id,
     })
-class RetrieveAPIView(views.APIView):
-    def get(self, request, id):
-        try:
-            instrument = Sensor.objects.get(id=int(id))
-            return response.Response(
-                status = status.HTTP_200_OK,
-                data = {
-                    'id': sensor.id,
-                    'name': sensor.name,
-                    'time': sensor.time
-                       }
-                )
 
-        except Exception as e:
-            return response.Response(
-                status = status.HTTP_400_BAD_REQUEST,
-                data = {
-                    'error': str(e),
-                       }
-                )
+
+class SensorRetrieveAPI(views.APIView):
+    def get(self, request, id):
+        sensor = get_object_or_404(Sensor, id=int(id))
+        serializer = SensorRetrieveSerializer(sensor)
+        return response.Response(
+            status=status.HTTP_200_OK,
+            data=serializer.data
+        )

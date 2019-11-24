@@ -1,28 +1,23 @@
+<!-- homepage/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-<title>IndoorAir | Report_01</title>
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
+<title>IndoorAir | Report 1</title>
 </head>
 <body>
     <script>
-        {% include "report/report_01.js" %}
+        {% include 'report/report_01.js' %}
     </script>
 
-    <h1>Temperature sensor Report</h1>
+    <h1>Report 01</h1>
 
-    <!-- STEP 1: Create a `table` HTML element and attacch `id` to it. --->
-    <table style="width:100%" id="temperatureSensorReport">
-    </table>
+    <button onclick="downloadTemperatureDataOnClick();">Download Temperature Sensor Data</button>
+
+    <br />
+    <br />
 
 
-    <p>
-        <button type="button" onclick="onBackClick()">Back</button>
-    </p>
+    <a href="{% url 'report_list_page' %}">Back to Reports</a>
 
 </body>
 </html>

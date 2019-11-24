@@ -10,20 +10,16 @@
     </script>
 
     <h1>Dashboard</h1>
-    <p>Welcome to your dashboard. Your averages are:</p>
-    <p>Average Temperature:</p>
-    <p id="avg_temperature">---</p>
-    <p>Average Humidity:</p>
-    <p id="avg_humidity">---</p>
-    <p>Average CO2:</p>
-    <p id="avg_co2">---</p>
-    <p>Average Pressure:</p>
-    <p id="avg_pressure">---</p>
-    <p>Average TVOC:</p>
-    <p id="avg_tvoc">---</p>
+    <p>Welcome to your dashboard, {{ user.first_name }}. Your averages are:</p>
+
     <br />
-    <a href="/instrument/instruments">List Instruments</a>
-    <a href="profile_api/retrieve_profile">View Profile</a>
+
+    <table style="width:100%" id="instruments_list"></table>
+
+    <br />
+    <a href="{% url 'i_list_page' %}">List Instruments</a>
+    <a href="{% url 'profile_retrieve_page' %}">View Profile</a>
+    <a href="{% url 'report_list_page' %}">Reports</a>
 
     <button onclick="onLogoutClick();">Logout</button>
 

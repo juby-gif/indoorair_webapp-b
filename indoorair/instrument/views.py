@@ -1,8 +1,14 @@
-from rest_framework import response,status,views
-from django.shortcuts import render
-import uuid
-
+"""
+instrument/views.py
+"""
+from django.http import HttpResponse, JsonResponse
+# from django.contrib.auth.models import User
+from django.shortcuts import render # STEP 1 - Import
+from django.shortcuts import redirect
 from foundations.models import Instrument
+from rest_framework import status, response, views
+
+from .serializers import InstrumentRetrieveSerializer
 
 
 def i_list_page(request):
@@ -18,102 +24,70 @@ def i_create_page(request):
     # STEP 4 - Use the `render` function.
     return render(request, "instrument/create.html", {})
 
-class ListInstrumentsAPIView(views.APIView):
-    def get(self, request):
-        output = []
-        instruments = Instrument.objects.filter(user=request.user)
-        for instrument in instruments.all():
-            output.append({
-                'id': instrument.id,
-                'name': instrument.name,
-            })
-        return response.Response(
-            status = status.HTTP_200_OK,
-            data = {
-                'Instruments': output
-            }
-        )
 
-class CreateAPIView(views.APIView):
-    def post(self, request):
-        unsanitized_serial_number = request.data.get('serial_no', None)
-        sanitized_serial_number = uuid.UUID(unsanitized_serial_number)
-        try:
-            uuid_value = Instrument.objects.all().values('serial_no')
-            for value in uuid_value:
-                if sanitized_serial_number == value['serial_no']:
-                    print(value['serial_no'])
-                    return response.Response(
-                        status = status.HTTP_201_CREATED,
-                        data = {
-                            'message':'Successfully Created'
-                               }
-                        )
-                    break
-                else:
-                    return response.Response(
-                        status = status.HTTP_400_BAD_REQUEST,
-                        data = {
-                            'error':'The Serial number you entered is wrong. Please try again!'
-                               }
-                        )
-        except Exception as e:
-            return response.Response(
-                status = status.HTTP_400_BAD_REQUEST,
-                data = {
-                    'error':str(e)
-                       }
-                )
+def get_instruments_list_api(request):
+    instruments = Instrument.objects.filter(user=request.user)
+    output = []
+    for instrument in instruments.all():
+        output.append({
+            'id': instrument.id,
+            'name': instrument.name,
+        })
+    return JsonResponse({
+        'instruments': output
+    })
+
+
+# def post_instruments_create_api(request):
+#     name = request.POST.get("name")
+#     print(name)
+#     try:
+#         instrument = Instrument.objects.create(
+#             name=name,
+#             user=request.user
+#         )
+#         print("INSTRUMENT ID", instrument.id)
+#         return JsonResponse({
+#          'was_created': True,
+#         })
+#     except Exception as e:
+#         return JsonResponse({
+#          'was_created': False,
+#          'reason': str(e),
+#         })
 
 
 def i_retrieve_page(request, id):
     return render(request, "instrument/retrieve.html", {
         "instrument_id": int(id),
     })
-class RetrieveAPIView(views.APIView):
 
+
+class InstrumentRetrieveAPI(views.APIView):
     def get(self, request, id):
-        try:
-            instrument = Instrument.objects.get(id=int(id))
-            return response.Response(
-                status = status.HTTP_200_OK,
-                data = {
-                    'id': instrument.id,
-                    'name': instrument.name,
-                       }
-                )
+        instrument = Instrument.objects.get(id=int(id))
+        serializer = InstrumentRetrieveSerializer(instrument, many=False)
+        return response.Response(
+            status=status.HTTP_200_OK,
+            data=serializer.data
+        )
 
-        except Exception as e:
-            return response.Response(
-                status = status.HTTP_400_BAD_REQUEST,
-                data = {
-                    'error': str(e),
-                       }
-                )
 
 def i_update_page(request, id):
     return render(request, "instrument/update.html", {
         "instrument_id": int(id),
     })
 
-class UpdateAPIView(views.APIView):
-    def post(self, request, id):
-        try:
-            name = request.POST.get("name")
-            instrument = Instrument.objects.get(id=int(id))
-            instrument.name = name
-            instrument.save()
-            return response.Response(
-                status = status.HTTP_200_OK,
-                data = {
-                    'id': instrument.id,
-                    'name': instrument.name,
-                       }
-                )
-        except Exception as e:
-            return response.Response(
-                status = status.HTTP_400_BAD_REQUEST,
-                data = {
-                    'error': str(e),
-                       }
-                )
+
+class InstrumentUpdateAPI(views.APIView):
+    def put(self, request, id):
+        instrument = Instrument.objects.get(id=id)
+        serializer = InstrumentUpdateSerializer(instrument, data=request.data, many=False)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return response.Response(
+            status=status.HTTP_200_OK,
+            data={
+                'Updated instrument'
+            }
+        )

@@ -1,26 +1,32 @@
+<!-- homepage/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-<title>IndoorAir | Retrieve TimeSeriesData</title>
+<title>IndoorAir | Sensor</title>
 </head>
 <body>
     <script>
-        {% include "sensor/retrieve.js" %}
+        {% include 'sensor/retrieve.js' %}
     </script>
 
-    <h1>Retrieve TimeSeriesData </h1>
-    <p>
-    ID:
-    <input id="id" name="id" type="text" readonly></input>
-    </p>
-    <p>
-    Name:
-    <input id="name" name="name" type="text" readonly></input>
-    </p>
+    <h1>Sensor</h1>
 
-    <p>
-    <button type="button" onclick="onBackClick()">Back</button>
+    <div>
+        Id: <div id="sensor_id"></div>
+    </div>
 
-    </p>
+    <br />
+    <br />
+
+    <div>
+        Name: <div id="sensor_name"></div>
+    </div>
+
+
+
+
+    <br />
+    <br />
+
 </body>
 </html>
